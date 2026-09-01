@@ -1,21 +1,23 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { dashboard } from '@/routes';
 import { Head, usePage } from '@inertiajs/react';
 import { Calendar, Ticket, User } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { dashboard } from '@/routes';
 
 interface DashboardProps {
-    totalEvents?: number;
-    totalUsers?: number;
-    totalTickets?: number;
+    stats?: {
+        totalEvents: number;
+        totalUsers: number;
+        totalTickets: number;
+    } | null;
 }
 
-export default function Dashboard({
-    totalEvents = 0,
-    totalUsers = 0,
-    totalTickets = 0,
-}: DashboardProps) {
-    const { auth } = usePage().props;
+export default function Dashboard({ stats }: DashboardProps) {
+    const { auth } = usePage<any>().props;
     const isAdmin = auth.user?.role === 'admin';
+
+    const totalEvents = stats?.totalEvents ?? 0;
+    const totalUsers = stats?.totalUsers ?? 0;
+    const totalTickets = stats?.totalTickets ?? 0;
 
     return (
         <>
